@@ -50,13 +50,16 @@ The goal test succeeds when the robot’s current coordinate equals the configur
 
 ## Path cost
 
-The current basic path cost is one unit per legal move. Therefore, the path cost is the number of moves. Crop cells, protection cells, and known blockades cannot be traversed, so paths avoid them entirely.
+- **Standard search (BFS, DFS, GBFS):** One unit per legal move (`cost = 1`), so the path cost equals the number of moves.
+- **Crop-safe A\* search:** Each legal move has a base cost of `1` plus a graduated proximity penalty for safe cells close to potato crops (`+6` at Manhattan distance 2 from a crop, `+2` at Manhattan distance 3, `0` at distance 4 or greater). Crop cells, protection cells, and known blockades remain strictly impassable.
 
 ## Unknown-blockade discovery and replanning
 
-The true field contains unknown blockades that the robot’s initial map does not show. BFS and DFS first plan from the robot’s current position using that map. If the next planned cell contains an unknown blockade in the true field, the robot detects it before entering, marks it as blocked in its map, remains in its current cell, and replans to the goal using the same search algorithm. The robot repeats this process until it reaches the goal or no route exists.
+The true field may contain unknown blockades that the robot’s initial map does not show. Each planner first computes a route from the robot’s current position using its known map. If the next planned cell contains an unknown blockade in the true field, the robot detects it before entering, marks it as a known blockade in its map, remains in its current cell, and replans a new route to the goal (using A\* for crop-safe online replanning, or the active solver in algorithm-specific simulations). The robot repeats this process until it reaches the goal or no feasible route exists.
 
 ## Search algorithms in the notebook
 
 - **Breadth-First Search (BFS):** explores the grid by increasing number of moves and returns a shortest path when every move has equal cost.
 - **Depth-First Search (DFS):** explores one branch deeply before backtracking. It may find a longer path than BFS and can have different behavior as action ordering changes.
+- **Greedy Best-First Search (GBFS):** uses the Manhattan distance heuristic `h(n) = |r - r_g| + |c - c_g|` to expand the cell that appears closest to the goal.
+- **A\* Crop-Safe Search:** minimizes `f(n) = g(n) + h(n)`, combining accumulated crop-safe movement cost `g(n)` with the admissible Manhattan distance heuristic `h(n)` to balance path length and crop clearance.
