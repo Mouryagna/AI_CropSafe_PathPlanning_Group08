@@ -136,7 +136,7 @@ All metrics below were verified using `performance_evaluation.py` (averaged over
 |---|---|---|---|
 | 1 | Nerella Leela Venkata Sai | BT24CSA008 | Field environment design and problem formulation |
 | 2 | Parthasaradhi Guda | BT24CSA061 | BFS and DFS implementation |
-| 3 | Rishishwar Reddy | BT24CSA058 | Greedy Best-First Search and heuristic design |
+| 3 | P RISHIKESH REDDY | BT24CSA058 | Greedy Best-First Search and heuristic design |
 | 4 | Mouryagna Baindla | BT24CSA015 | A\* implementation and crop-safe path cost |
 | 5 | K Shashank Reddy | BT24CSA014 | Obstacle detection simulation, map update, and replanning |
 | 6 | Dineswara Kumar | BT24CSA062 | Testing, visualisation, performance comparison, and documentation |
